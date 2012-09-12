@@ -290,6 +290,10 @@ function! activefix#writefile(srcpath, destpath)
     " if getbufvar(a:srcpath, '&fileformat') ==# 'dos'
     "   call map(list, 'v:val . "\\r"')
     " endif
+    let destdir = substitute(a:destpath, '/[^/]*$', '', '')
+    if a:destpath !=# destdir && !isdirectory(destdir)
+      call mkdir(iconv(destdir, &encoding, &termencoding), 'p')
+    endif
     call writefile(list, a:destpath)
 
   else
