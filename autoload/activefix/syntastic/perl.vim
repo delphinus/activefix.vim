@@ -1,4 +1,3 @@
-" this file is based on syntastic/syntax_checkers/perl.vim
 "============================================================================
 "File:        perl.vim
 "Description: Syntax checking plugin for syntastic.vim
@@ -25,6 +24,10 @@
 "
 "   let g:syntastic_perl_efm_program = "foo.pl -o -m -g"
 "
+if exists("loaded_perl_syntax_checker")
+    finish
+endif
+let loaded_perl_syntax_checker = 1
 
 "bail if the user doesnt have perl installed
 if !executable("perl")
@@ -32,14 +35,14 @@ if !executable("perl")
 endif
 
 if !exists("g:syntastic_perl_efm_program")
-    let g:syntastic_perl_efm_program = 'perl ' . shellescape(activefix#syntastic#expand_target('perl', '<sfile>:p:h') . '/efm_perl.pl') . ' -c -w'
+    let g:syntastic_perl_efm_program = 'perl ' . shellescape(expand('<sfile>:p:h') . '/efm_perl.pl') . ' -c -w'
 endif
 
 function! activefix#syntastic#perl#config()
     if exists("g:syntastic_perl_lib_path")
-        let makeprg = g:syntastic_perl_efm_program . ' -I' . g:syntastic_perl_lib_path . ' ' . shellescape(activefix#syntastic#expand_target('perl', '%'))
+        let makeprg = g:syntastic_perl_efm_program . ' -I' . g:syntastic_perl_lib_path . ' ' . shellescape(expand('%'))
     else
-        let makeprg = g:syntastic_perl_efm_program . ' ' . shellescape(activefix#syntastic#expand_target('perl', '%'))
+        let makeprg = g:syntastic_perl_efm_program . ' ' . shellescape(expand('%'))
     endif
     let errorformat =  '%t:%f:%l:%m'
 
