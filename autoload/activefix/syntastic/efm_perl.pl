@@ -93,13 +93,14 @@ my $handle = (defined $opt_f ? \*FILE : \*STDOUT);
 my $args = (@ARGV ? ' ' . join ' ', @ARGV : '');
 
 my $libs = join ' ', map {"-I$_"} split ',', $opt_I;
-my @error_lines = `perl $libs @{[defined $opt_c ? '-c ' : '' ]} @{[defined $opt_w ? '-X ' : '-w ']} "$file$args" 2>&1`;
+#my @error_lines = `perl $libs @{[defined $opt_c ? '-c ' : '' ]} @{[defined $opt_w ? '-X ' : '-w ']} "$file$args" 2>&1`;
+my @error_lines = `perl $libs @{[defined $opt_c ? '-c ' : '' ]} "$file$args" 2>&1`;
 
 my @lines = map { "E:$_" } @error_lines;
 
 my @warn_lines;
 if(defined($opt_w)) {
-    @warn_lines = `perl $libs @{[defined $opt_c ? '-c ' : '' ]} -w "$file$args" 2>&1`;
+	#@warn_lines = `perl $libs @{[defined $opt_c ? '-c ' : '' ]} -w "$file$args" 2>&1`;
 }
 
 # Any new errors must be warnings

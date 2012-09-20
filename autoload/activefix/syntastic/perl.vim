@@ -34,8 +34,13 @@ if !executable("perl")
     finish
 endif
 
+let w_arg = ''
+if !exists("g:syntastic_perl_ignore_warnings") || !g:syntastic_perl_ignore_warnings
+    let w_arg = '-w'
+endif
+
 if !exists("g:syntastic_perl_efm_program")
-    let g:syntastic_perl_efm_program = 'perl ' . shellescape(expand('<sfile>:p:h') . '/efm_perl.pl') . ' -c -w'
+    let g:syntastic_perl_efm_program = 'perl ' . shellescape(expand('<sfile>:p:h') . '/efm_perl.pl') . ' -c ' . w_arg
 endif
 
 function! activefix#syntastic#perl#config()
